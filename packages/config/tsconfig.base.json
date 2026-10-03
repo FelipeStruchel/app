@@ -1,51 +1,51 @@
 {
-     "compilerOptions": {
-       // ===== Linguagem =====
-       // Versão do JavaScript gerada. ES2022 roda em Node 18+ e em navegadores atuais.
-       "target": "ES2022",
-       // Quais APIs "built-in" o TypeScript conhece (Promise, Map, Array.at...). Apps de browser acrescentam "dom".
-       "lib": ["ES2022"],
+  "compilerOptions": {
+    // ===== Linguagem =====
+    // Versão do JavaScript gerada. ES2022 roda em Node 18+ e em navegadores atuais.
+    "target": "ES2022",
+    // Quais APIs "built-in" o TypeScript conhece (Promise, Map, Array.at...). Apps de browser acrescentam "dom".
+    "lib": ["ES2022"],
 
-       // ===== Módulos =====
-       // Formato de módulo gerado. ESNext = import/export modernos. O Nest sobrescreve para NodeNext.
-       "module": "ESNext",
-       // Como o TS encontra o arquivo de um import. "Bundler" combina com Next.js. O Nest sobrescreve para "NodeNext".
-       "moduleResolution": "Bundler",
-       // Permite `import dados from './dados.json'`.
-       "resolveJsonModule": true,
+    // ===== Módulos =====
+    // Formato de módulo gerado. ESNext = import/export modernos. O Nest sobrescreve para NodeNext.
+    "module": "ESNext",
+    // Como o TS encontra o arquivo de um import. "Bundler" combina com Next.js. O Nest sobrescreve para "NodeNext".
+    "moduleResolution": "Bundler",
+    // Permite `import dados from './dados.json'`.
+    "resolveJsonModule": true,
 
-       // ===== Rigor: a família "strict" =====
-       // Liga de uma vez todas as checagens estritas abaixo. As flags seguintes estão
-       // escritas explicitamente só para você ver o que cada uma faz (já vêm ligadas por esta).
-       "strict": true,
-       // Proíbe tipo `any` implícito: parâmetro sem tipo é erro.
-       "noImplicitAny": true,
-       // `null` e `undefined` não cabem em qualquer tipo; você precisa tratá-los.
-       "strictNullChecks": true,
-       // Checa parâmetros de funções de forma estrita ao atribuir uma função a outra.
-       "strictFunctionTypes": true,
-       // Checa os argumentos de `.bind`, `.call` e `.apply`.
-       "strictBindCallApply": true,
-       // Propriedades de classe precisam ser inicializadas (no construtor ou na declaração).
-       "strictPropertyInitialization": true,
-       // `this` com tipo implícito `any` é erro.
-       "noImplicitThis": true,
-       // O `e` do `catch (e)` é `unknown`, não `any`: você precisa checar antes de usar.
-       "useUnknownInCatchVariables": true,
-       // Emite "use strict" em todo arquivo gerado.
-       "alwaysStrict": true,
-       // Fora do `strict`, mas queremos igual:
-       // Toda função com `return` em algum caminho precisa retornar em todos.
-       "noImplicitReturns": true,
-       // Erro se um `case` do `switch` cai no próximo sem `break`.
-       "noFallthroughCasesInSwitch": true,
+    // ===== Rigor: a família "strict" =====
+    // Liga de uma vez todas as checagens estritas abaixo. As flags seguintes estão
+    // escritas explicitamente só para você ver o que cada uma faz (já vêm ligadas por esta).
+    "strict": true,
+    // Proíbe tipo `any` implícito: parâmetro sem tipo é erro.
+    "noImplicitAny": true,
+    // `null` e `undefined` não cabem em qualquer tipo; você precisa tratá-los.
+    "strictNullChecks": true,
+    // Checa parâmetros de funções de forma estrita ao atribuir uma função a outra.
+    "strictFunctionTypes": true,
+    // Checa os argumentos de `.bind`, `.call` e `.apply`.
+    "strictBindCallApply": true,
+    // Propriedades de classe precisam ser inicializadas (no construtor ou na declaração).
+    "strictPropertyInitialization": true,
+    // `this` com tipo implícito `any` é erro.
+    "noImplicitThis": true,
+    // O `e` do `catch (e)` é `unknown`, não `any`: você precisa checar antes de usar.
+    "useUnknownInCatchVariables": true,
+    // Emite "use strict" em todo arquivo gerado.
+    "alwaysStrict": true,
+    // Fora do `strict`, mas queremos igual:
+    // Toda função com `return` em algum caminho precisa retornar em todos.
+    "noImplicitReturns": true,
+    // Erro se um `case` do `switch` cai no próximo sem `break`.
+    "noFallthroughCasesInSwitch": true,
 
-       // ===== Interop e qualidade =====
-       // Permite `import express from 'express'` em pacotes CommonJS.
-       "esModuleInterop": true,
-       // `./Foo` e `./foo` são o mesmo arquivo no Windows/macOS mas não no Linux; isso evita o bug.
-       "forceConsistentCasingInFileNames": true,
-       // Não checa os `.d.ts` dentro de node_modules: build mais rápido, sem erros de libs de terceiros.
-       "skipLibCheck": true
-     }
-   }
+    // ===== Interop e qualidade =====
+    // Permite `import express from 'express'` em pacotes CommonJS.
+    "esModuleInterop": true,
+    // `./Foo` e `./foo` são o mesmo arquivo no Windows/macOS mas não no Linux; isso evita o bug.
+    "forceConsistentCasingInFileNames": true,
+    // Não checa os `.d.ts` dentro de node_modules: build mais rápido, sem erros de libs de terceiros.
+    "skipLibCheck": true
+  }
+}
