@@ -9,4 +9,3 @@ import { HealthModule } from './health/health.module.js';
   providers: [AppService],
 })
 export class AppModule {}
-

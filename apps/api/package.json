@@ -17,9 +17,7 @@
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
-    "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
-    "prettier": "@miolo-e-mel/config/prettier.json"
-
+    "test:e2e": "vitest run --config ./vitest.config.e2e.ts"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",
@@ -50,5 +48,6 @@
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^4.1.2"
   },
-  "type": "module"
+  "type": "module",
+  "prettier": "@miolo-e-mel/config/prettier.json"
 }
