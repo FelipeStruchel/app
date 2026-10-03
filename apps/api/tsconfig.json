@@ -1,0 +1,37 @@
+{
+  "extends": "../../packages/config/tsconfig.base.json",
+  "compilerOptions": {
+    // O Nest roda em Node. "NodeNext" segue as regras de módulos do Node: como o package.json
+    // do api tem "type": "module", os arquivos saem como ESM (import/export) e imports locais levam ".js".
+    "module": "NodeNext",
+    // Par obrigatório do "module": "NodeNext". (O antigo "Node10" foi removido no TypeScript 7.)
+    "moduleResolution": "NodeNext",
+    // Respeita o campo "exports" do package.json das libs, como o Node faz.
+    "resolvePackageJsonExports": true,
+    // Cada arquivo precisa poder ser compilado sozinho (o Nest usa isso). Em tipos, use `import type`.
+    "isolatedModules": true,
+    // Tipos globais carregados: "node" (process, Buffer...) e "vitest/globals" (describe, it, expect).
+    // Desde o TypeScript 6 isso precisa ser explícito; antes carregava tudo de @types/*.
+    "types": ["vitest/globals", "node"],
+    // Decorators (@Controller, @Get, @Injectable...) são a base do Nest.
+    "experimentalDecorators": true,
+    // Emite informação de tipo em tempo de execução; o Nest usa isso na injeção de dependência.
+    "emitDecoratorMetadata": true,
+    // Aqui precisamos gerar JS (o app roda a partir de ./dist).
+    "outDir": "./dist",
+    // Raiz dos arquivos de entrada (src e test ficam sob esta pasta).
+    "rootDir": ".",
+    // Gera arquivos .d.ts junto com o JS.
+    "declaration": true,
+    // Gera mapas para o debugger mostrar o .ts original em vez do .js.
+    "sourceMap": true,
+    // Remove comentários do JS gerado.
+    "removeComments": true,
+    // Reaproveita o resultado da compilação anterior: builds seguintes mais rápidos.
+    "incremental": true,
+    // Permite `import x from 'y'` mesmo em módulos sem export default explícito.
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["src/**/*", "test/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
