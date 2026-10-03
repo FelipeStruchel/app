@@ -37,6 +37,11 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # O Prisma Client não vai para o Git (src/generated) e os testes importam ele, então é gerado aqui.
+      # O generate só lê o schema e não conecta no banco: a variável só precisa existir (prisma.config.ts exige).
+      - run: pnpm --filter api exec prisma generate
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
       # O threshold de 70% vive na config de cada app (Jest: coverageThreshold; Vitest: coverage.thresholds)
       - run: pnpm turbo run test -- --coverage
 
