@@ -66,6 +66,8 @@ jobs:
 
   test:
     name: test
+    # Os jobs rápidos vêm antes: se algum falhar, os pesados (test e codeql) nem rodam.
+    needs: [lint, typecheck, build, commitlint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -85,6 +87,7 @@ jobs:
 
   codeql:
     name: codeql
+    needs: [lint, typecheck, build, commitlint] # só roda se os jobs rápidos passarem
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -111,22 +114,29 @@ jobs:
 
   commitlint:
     name: commitlint
-    # Só em PR: confere o título do PR (vira a mensagem do commit no squash) e as mensagens dos commits.
-    if: github.event_name == 'pull_request'
+    # Roda sempre (os jobs pesados dependem dele), mas só confere algo em PR: no push para a main
+    # os passos são pulados e o job passa direto. Confere o título do PR (vira a mensagem do commit
+    # no squash) e as mensagens dos commits.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - if: github.event_name == 'pull_request'
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0 # histórico completo, para o commitlint enxergar todos os commits do PR
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v7
+      - if: github.event_name == 'pull_request'
+        uses: pnpm/action-setup@v6
+      - if: github.event_name == 'pull_request'
+        uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - if: github.event_name == 'pull_request'
+        run: pnpm install --frozen-lockfile
       - name: Título do PR
+        if: github.event_name == 'pull_request'
         env:
           PR_TITLE: ${{ github.event.pull_request.title }} # via variável de ambiente (não direto no comando), por segurança
         run: echo "$PR_TITLE" | pnpm exec commitlint --verbose
       - name: Commits do PR
+        if: github.event_name == 'pull_request'
         run: pnpm exec commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
