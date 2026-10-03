@@ -26,8 +26,48 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm turbo run lint
 
+  typecheck:
+    name: typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # O Prisma Client não vai para o Git (src/generated); o generate só lê o schema e não conecta no banco:
+      # a variável precisa existir (prisma.config.ts exige), o banco não.
+      - run: pnpm --filter api exec prisma generate
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+      # Confere os tipos (o Vitest e o ESLint não conferem): roda o `typecheck` de cada app/pacote.
+      - run: pnpm turbo run typecheck
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # O Prisma Client não vai para o Git (src/generated); o generate só lê o schema e não conecta no banco:
+      # a variável precisa existir (prisma.config.ts exige), o banco não.
+      - run: pnpm --filter api exec prisma generate
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+      # Compila tudo como em produção: pega erro que só aparece no build (ex.: arquivo fora do rootDir).
+      - run: pnpm turbo run build
+
   test:
     name: test
+    # Os jobs rápidos vêm antes: se algum falhar, os pesados (test e codeql) nem rodam.
+    needs: [lint, typecheck, build, commitlint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -47,6 +87,7 @@ jobs:
 
   codeql:
     name: codeql
+    needs: [lint, typecheck, build, commitlint] # só roda se os jobs rápidos passarem
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -59,3 +100,43 @@ jobs:
       - uses: github/codeql-action/analyze@v4
         with:
           category: /language:javascript-typescript
+
+  dependency-review:
+    name: dependency-review
+    # Só em PR: compara as dependências do PR com a base e barra vulnerabilidade alta ou crítica.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+
+  commitlint:
+    name: commitlint
+    # Roda sempre (os jobs pesados dependem dele), mas só confere algo em PR: no push para a main
+    # os passos são pulados e o job passa direto. Confere o título do PR (vira a mensagem do commit
+    # no squash) e as mensagens dos commits.
+    runs-on: ubuntu-latest
+    steps:
+      - if: github.event_name == 'pull_request'
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # histórico completo, para o commitlint enxergar todos os commits do PR
+      - if: github.event_name == 'pull_request'
+        uses: pnpm/action-setup@v6
+      - if: github.event_name == 'pull_request'
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - if: github.event_name == 'pull_request'
+        run: pnpm install --frozen-lockfile
+      - name: Título do PR
+        if: github.event_name == 'pull_request'
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }} # via variável de ambiente (não direto no comando), por segurança
+        run: echo "$PR_TITLE" | pnpm exec commitlint --verbose
+      - name: Commits do PR
+        if: github.event_name == 'pull_request'
+        run: pnpm exec commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
