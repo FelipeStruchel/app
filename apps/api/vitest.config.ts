@@ -2,12 +2,20 @@ import { defineConfig } from 'vitest/config';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  // Resolves the path aliases declared in tsconfig.json, including the ones
-  // added by `nest g library`.
+  // Resolve os aliases do tsconfig.json (paths).
   plugins: [tsconfigPaths()],
   test: {
-    globals: true,
+    globals: true, // describe, it e expect disponíveis sem import
     root: './',
-    include: ['**/*.spec.ts'],
+    include: ['**/*.spec.ts'], // quais arquivos são testes
+    coverage: {
+      provider: 'v8', // como a cobertura é medida
+      // Mede todo o código de src/, inclusive arquivos que nenhum teste importa (aparecem com 0%).
+      include: ['src/**/*.ts'],
+      // Fora da conta: arquivo de inicialização, módulos (só declaram), código gerado pelo Prisma e os próprios testes.
+      exclude: ['src/main.ts', 'src/generated/**', 'src/**/*.module.ts', 'src/**/*.spec.ts'],
+      // Se qualquer índice ficar abaixo de 70%, `pnpm test:cov` falha (e o CI também).
+      thresholds: { lines: 70, functions: 70, statements: 70 },
+    },
   },
 });
