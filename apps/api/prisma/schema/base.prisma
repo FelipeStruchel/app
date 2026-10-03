@@ -1,0 +1,8 @@
+generator client {
+  provider = "prisma-client"      // gerador novo do Prisma 7 (o antigo era "prisma-client-js")
+  output   = "../../src/generated/prisma" // onde o client é gerado: apps/api/generated/prisma (já no .gitignore da raiz). O caminho é relativo a ESTE arquivo, por isso dois "../"
+}
+
+datasource db {
+  provider = "postgresql"         // a URL fica no prisma.config.ts
+}
