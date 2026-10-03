@@ -1,0 +1,17 @@
+# dependências
+node_modules
+
+# builds e caches
+dist
+.next
+.turbo
+coverage
+*.tsbuildinfo
+
+# segredos: cada pessoa tem o seu .env local; só o .env.example vai para o Git
+.env
+.env.*
+!.env.example
+
+# código gerado pelo Prisma (SUB-003)
+generated
