@@ -1,0 +1,17 @@
+# Quem precisa aprovar mudanças nos "portões de qualidade" (CI, lint, cobertura, hooks, banco).
+# Vale com a regra "Require review from Code Owners" do ruleset da main.
+# Sintaxe: caminho  dono (o último padrão que combina com o arquivo vence).
+
+/.github/                @FelipeStruchel
+/.husky/                 @FelipeStruchel
+/commitlint.config.mjs   @FelipeStruchel
+/turbo.json              @FelipeStruchel
+/pnpm-workspace.yaml     @FelipeStruchel
+/packages/config/        @FelipeStruchel
+
+# Piso de cobertura (coverage.thresholds) e regras de lint de cada app/pacote.
+**/vitest.config*.ts     @FelipeStruchel
+**/eslint.config.mjs     @FelipeStruchel
+
+# Schema e migrations do banco.
+**/prisma/               @FelipeStruchel

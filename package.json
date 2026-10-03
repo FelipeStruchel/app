@@ -7,7 +7,9 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +24,9 @@
   "packageManager": "pnpm@12.8.1",
   "type": "module",
   "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "husky": "^9.1.7",
     "prettier": "^3.9.9",
     "turbo": "^2.11.6",
     "typescript": "^6.0.3"
