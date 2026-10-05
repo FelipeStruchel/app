@@ -1,21 +1,19 @@
+import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
-import { createObserveModule } from '@nestjs/observe';
-import { AppController } from './app.controller.js';
-import { AppService } from './app.service.js';
+import { Redis } from 'ioredis';
+import { HEALTH_CHECK_QUEUE, HealthCheckProcessor } from './queues/health-check.queue.js';
 
-export const { ObserveModule, ObserveInstrument } = createObserveModule();
+// Cliente Redis criado por nós (exigência do BullMQ em ESM).
+// `maxRetriesPerRequest: null` é obrigatório para workers do BullMQ.
+const connection = new Redis(process.env.REDIS_URL ?? 'redis://localhost:6379', {
+  maxRetriesPerRequest: null,
+});
 
 @Module({
   imports: [
-    // Distributed tracing, auto-correlated logs, request/job metrics, error
-    // telemetry, alarms, and more — out of the box. Sign up at https://observe.nestjs.com
-    ObserveModule.forRoot({
-      appKey: 'YOUR_APP_KEY',
-      appSecret: 'YOUR_APP_SECRET',
-      serviceId: 'worker',
-    }),
+    BullModule.forRoot({ connection }), // conexão compartilhada por todas as filas
+    BullModule.registerQueue({ name: HEALTH_CHECK_QUEUE }), // a fila de exemplo
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [HealthCheckProcessor], // quem processa os jobs da fila
 })
 export class AppModule {}
