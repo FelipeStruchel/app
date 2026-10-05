@@ -1,0 +1,17 @@
+{
+  "extends": "../config/tsconfig.base.json",
+  "compilerOptions": {
+    // Navegador: acrescenta as APIs do DOM e "esnext" para APIs novas.
+    "lib": ["dom", "dom.iterable", "esnext"],
+    // Transformação moderna do JSX (não precisa `import React`).
+    "jsx": "react-jsx",
+    // O pacote não gera arquivos: quem compila é o Next, nos apps.
+    "noEmit": true,
+    // Cada arquivo precisa poder ser compilado sozinho.
+    "isolatedModules": true,
+    // Alias usado pelos componentes do ShadCN: `@miolo-e-mel/ui/lib/utils` aponta para `src/lib/utils`.
+    "paths": { "@miolo-e-mel/ui/*": ["./src/*"] }
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
+}
