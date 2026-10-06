@@ -1,28 +1,28 @@
-import js from "@eslint/js";
-import tseslint from "typescript-eslint";
-import prettier from "eslint-config-prettier";
-import { defineConfig, globalIgnores } from "eslint/config";
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import prettier from 'eslint-config-prettier';
+import { defineConfig, globalIgnores } from 'eslint/config';
 
 // Pastas que o ESLint nunca deve analisar (código gerado ou de terceiros).
 export const ignores = globalIgnores([
-  "**/node_modules/**",
-  "**/dist/**",
-  "**/coverage/**",
-  "**/.next/**",
-  "**/next-env.d.ts",
+  '**/node_modules/**',
+  '**/dist/**',
+  '**/coverage/**',
+  '**/.next/**',
+  '**/next-env.d.ts',
 ]);
 
 export const rules = {
   rules: {
     // Exige === e !== (o == faz conversão de tipo e esconde bugs).
-    eqeqeq: ["error", "always"],
+    eqeqeq: ['error', 'always'],
     // Variável/parâmetro não usado é erro; prefixe com _ para dizer "de propósito" (ex.: _req).
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
     ],
     // `any` desliga a checagem de tipos; avisa (warning) mas não quebra o lint.
-    "@typescript-eslint/no-explicit-any": "warn",
+    '@typescript-eslint/no-explicit-any': 'warn',
   },
 };
 

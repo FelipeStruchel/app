@@ -25,6 +25,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm turbo run lint
+      # Formatação (Prettier) em todo o repositório; para corrigir localmente: `pnpm format`.
+      - run: pnpm format:check
 
   typecheck:
     name: typecheck

@@ -1,0 +1,10 @@
+# Dependências, saídas de build e arquivos gerados: não se formatam.
+node_modules
+.next
+dist
+coverage
+.turbo
+*.tsbuildinfo
+next-env.d.ts
+pnpm-lock.yaml
+src/generated
