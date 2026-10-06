@@ -1,0 +1,35 @@
+{
+  "extends": "../../packages/config/tsconfig.base.json",
+  "compilerOptions": {
+    // Navegador: acrescenta as APIs do DOM (document, window...) e "esnext" para APIs novas.
+    "lib": ["dom", "dom.iterable", "esnext"],
+    // O Next compila o código; o TS só checa tipos, não gera arquivos.
+    "noEmit": true,
+    // Deixa importar arquivos .js (o Next gera alguns).
+    "allowJs": true,
+    // Transformação moderna do JSX (não precisa `import React`). O Next exige este valor.
+    "jsx": "react-jsx",
+    // Cada arquivo precisa poder ser compilado sozinho (exigência do Next/SWC). Em tipos, use `import type`.
+    "isolatedModules": true,
+    // Tipos globais: Node e Vitest (describe, it, expect). Desde o TypeScript 6 precisa ser explícito.
+    "types": ["node", "vitest/globals"],
+    // Reaproveita a checagem anterior: mais rápido.
+    "incremental": true,
+    // Plugin do Next que melhora o autocomplete e valida regras do App Router.
+    "plugins": [{ "name": "next" }],
+    // Aliases: `@/componentes/Foo` aponta para `src/componentes/Foo`; `@miolo-e-mel/ui/...` aponta para o pacote compartilhado (o ShadCN precisa disso para achar os componentes).
+    "paths": {
+      "@/*": ["./src/*"],
+      "@miolo-e-mel/ui/*": ["../../packages/ui/src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

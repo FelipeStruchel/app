@@ -1,0 +1,1 @@
+import '@testing-library/jest-dom/vitest'; // adiciona matchers como toBeInTheDocument()
