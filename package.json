@@ -9,7 +9,9 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
-    "prepare": "husky"
+    "prepare": "husky",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "",
@@ -26,9 +28,11 @@
   "devDependencies": {
     "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.3",
+    "@miolo-e-mel/config": "workspace:*",
     "husky": "^9.1.7",
     "prettier": "^3.9.9",
     "turbo": "^2.11.6",
     "typescript": "^6.0.3"
-  }
+  },
+  "prettier": "@miolo-e-mel/config/prettier.json"
 }
