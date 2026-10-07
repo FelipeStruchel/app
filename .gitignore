@@ -8,6 +8,9 @@ dist
 coverage
 *.tsbuildinfo
 
+# gerado pelo Next a cada dev/build/typegen (o conteúdo muda conforme o comando)
+next-env.d.ts
+
 # segredos: cada pessoa tem o seu .env local; só o .env.example vai para o Git
 .env
 .env.*
