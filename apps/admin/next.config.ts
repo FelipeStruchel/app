@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   // Raiz do monorepo: o Next precisa enxergar também ../../packages para incluí-los no standalone.
   outputFileTracingRoot: path.join(import.meta.dirname, '../../'),
   // Pacotes do monorepo que o Next deve compilar (estão em TypeScript, sem build próprio).
-  transpilePackages: ['@miolo-e-mel/ui'],
+  transpilePackages: ['@miolo-e-mel/ui', '@miolo-e-mel/firebase-client'],
 };
 
 export default nextConfig;
