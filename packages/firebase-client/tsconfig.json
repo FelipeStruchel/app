@@ -1,0 +1,16 @@
+{
+  // Herda as regras rigorosas comuns a todo o monorepo.
+  "extends": "../config/tsconfig.base.json",
+  "compilerOptions": {
+    // Este código roda no navegador (DOM) e usa APIs novas do JavaScript.
+    "lib": ["dom", "dom.iterable", "esnext"],
+    // Desde o TypeScript 6, os tipos de `@types/*` só entram se listados aqui.
+    // "node" traz o `process` (usado para ler `process.env.NEXT_PUBLIC_*`).
+    "types": ["node"],
+    // O pacote não gera arquivos: quem compila é o Next, nos apps.
+    "noEmit": true,
+    // Cada arquivo precisa poder ser compilado sozinho.
+    "isolatedModules": true
+  },
+  "include": ["src"]
+}
